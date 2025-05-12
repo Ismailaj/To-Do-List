@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>To do list App</title>
+</head>
+<body>
+    <div class="form-container">
+        <h1>To Do list</h1>
+        <input type="text">
+        <button>Add</button>
+
+        <ul class="tasks-container">
+
+        </ul>
+        <button class="clear">Clear tasks</button>
+    </div>
+
+
+    <script>
+        const input = document.querySelector("input");
+        const btn = document.querySelector("button");
+        const tasks = document.querySelector(".tasks-container");
+        const clear = document.querySelector(".clear");
+
+        btn.addEventListener("click", addTask);
+
+        function addTask() {
+            if (input.value === "") {
+                alert("Please insert a task");
+            } else {
+
+                const li = document.createElement("li");
+                li.innerHTML = input.value;
+                tasks.appendChild(li);
+                let span = document.createElement("span");
+                span.innerHTML = "\u00d7";
+                li.appendChild(span);
+                saveTasks();
+            }
+            input.value = "";
+        }
+        tasks.addEventListener("click", (e) => {
+            e.preventDefault();
+            if (e.target.tagName === "SPAN") {
+                e.target.parentElement.remove();
+            }
+            saveTasks();
+        });
+        clear.addEventListener("click", () => {
+            tasks.innerHTML = "";
+            saveTasks();
+        });
+
+        function saveTasks() {
+            const save = localStorage.setItem("items", tasks.innerHTML);
+            // console.log(save);
+        }
+        function loadTasks() {
+            const load = localStorage.getItem("items");
+            tasks.innerHTML = load;
+            console.log(load);
+        }
+        loadTasks();
+    </script>
+</body>
+</html>
